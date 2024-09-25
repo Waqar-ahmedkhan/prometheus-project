@@ -13,6 +13,12 @@ const products = [
     { id: 2, name: "Product 2", price: 200 },
     { id: 3, name: "Product 3", price: 300 },
 ];
+app.use((req, res, next) => {
+    const startdate = Date.now();
+    next();
+    const endDate = Date.now();
+    console.log(`total ms:`, startdate - endDate, "ms");
+});
 // GET all products
 app.get("/products", (req, res) => {
     res.json(products);
