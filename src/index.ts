@@ -18,6 +18,10 @@ const products = [
 app.get("/products", (req, res) => {
   res.json(products);
 });
+
+app.use((req, res, next) => {
+  const date =  Date.now()
+})
  
 
 
