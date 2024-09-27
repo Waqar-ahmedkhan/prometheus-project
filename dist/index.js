@@ -16,6 +16,7 @@ const express_1 = __importDefault(require("express"));
 const RequestCount_1 = require("./metrics/RequestCount");
 const prom_client_1 = __importDefault(require("prom-client"));
 const ActiveUserGuage_1 = require("./metrics/ActiveUserGuage");
+const Histogram_1 = require("./metrics/Histogram");
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
 // Mock API data
@@ -26,6 +27,7 @@ const products = [
 ];
 app.use(RequestCount_1.requestCountMiddleware);
 app.use(ActiveUserGuage_1.UserGauge);
+app.use(Histogram_1.Histrogram);
 app.use((req, res, next) => {
     const startdate = Date.now();
     next();

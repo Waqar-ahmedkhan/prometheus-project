@@ -2,7 +2,8 @@ import express, { Request, Response } from "express";
 import { requestCountMiddleware } from "./metrics/RequestCount";
 import client from "prom-client";
 import { UserGauge } from "./metrics/ActiveUserGuage";
-
+import { Histogram } from "prom-client";
+import { Histrogram } from "./metrics/Histogram";
 const app = express();
 
 
@@ -18,6 +19,7 @@ const products = [
 ];
 app.use(requestCountMiddleware);
 app.use(UserGauge);
+app.use(Histrogram);
 app.use((req, res, next) => {
   const startdate =  Date.now()
    next();
