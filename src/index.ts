@@ -1,9 +1,11 @@
-import express from "express";
+import express, { Request, Response } from "express";
+import { requestCountMiddleware } from "./metrics/RequestCount";
+import client from "prom-client";
 
 const app = express();
 
 
-app.use(express.json());
+
 
 const port = process.env.PORT || 3000;
 
@@ -13,6 +15,7 @@ const products = [
   { id: 2, name: "Product 2", price: 200 },
   { id: 3, name: "Product 3", price: 300 },
 ];
+app.use(requestCountMiddleware)
 app.use((req, res, next) => {
   const startdate =  Date.now()
    next();
@@ -23,11 +26,11 @@ app.use((req, res, next) => {
 app.get("/products", (req, res) => {
   res.json(products);
 });
-
-
- 
-
-
+app.get("/metrics", async (req:Request, res:Response) => {
+    const metrics = await client.register.metrics();
+    res.set('Content-Type', client.register.contentType);
+    res.end(metrics);
+})
 app.listen(port, ()=> {
   console.log(`Server running on port ${port}`);
 });
