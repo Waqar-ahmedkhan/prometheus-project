@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const RequestCount_1 = require("./metrics/RequestCount");
 const prom_client_1 = __importDefault(require("prom-client"));
+const ActiveUserGuage_1 = require("./metrics/ActiveUserGuage");
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
 // Mock API data
@@ -24,6 +25,7 @@ const products = [
     { id: 3, name: "Product 3", price: 300 },
 ];
 app.use(RequestCount_1.requestCountMiddleware);
+app.use(ActiveUserGuage_1.UserGauge);
 app.use((req, res, next) => {
     const startdate = Date.now();
     next();

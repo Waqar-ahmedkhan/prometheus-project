@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { requestCountMiddleware } from "./metrics/RequestCount";
 import client from "prom-client";
+import { UserGauge } from "./metrics/ActiveUserGuage";
 
 const app = express();
 
@@ -15,7 +16,8 @@ const products = [
   { id: 2, name: "Product 2", price: 200 },
   { id: 3, name: "Product 3", price: 300 },
 ];
-app.use(requestCountMiddleware)
+app.use(requestCountMiddleware);
+app.use(UserGauge);
 app.use((req, res, next) => {
   const startdate =  Date.now()
    next();
